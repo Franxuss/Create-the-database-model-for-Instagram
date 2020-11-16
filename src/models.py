@@ -8,7 +8,7 @@ from eralchemy import render_er
 
 Base = declarative_base()
 
-class User(Base):
+class user(Base):
     __tablename__ = 'user'
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
@@ -18,6 +18,7 @@ class User(Base):
     address = Column(String)
     email = Column(String)
     password = Column(String)
+
 
 # class Address(Base):
 #     __tablename__ = 'address'
@@ -30,28 +31,35 @@ class User(Base):
 #     person_id = Column(Integer, ForeignKey('user.id'))
 #     person = relationship(User)
 
-class Likes(Base):
-    __tablename__ = 'likes'
-    id = Column(Integer, primary_key=True)
-    user = Column(String)
-    date = Column(String)
-  
-
-class Post(Base):
+class post(Base):
     __tablename__ = 'post'
     id = Column(Integer, primary_key=True)
     image = Column(String)
     date = Column(String)
     user = Column(String)
 
-class DirectMessage(Base):
-    __tablename__ = 'directMessage'
+class post_likes(Base):
+    __tablename__ = 'post_likes'
     id = Column(Integer, primary_key=True)
-    user = Column(String)
-    date = Column(String)
-    voicenote = Column(String)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    post_id = Column(Integer, ForeignKey('user.id'))
+    published_at = Column(String)
+
+class direct_message(Base):
+    __tablename__ = 'direct_message'
+    id = Column(Integer, primary_key=True)
+    sender_id = Column(Integer, ForeignKey('user.id'))
+    recibed_id = Column(Integer, ForeignKey('user.id'))
     message = Column(String(300))
-    image = Column(String)
+    published_at = Column(String)
+
+class comments(Base):
+    __tablename__ = 'comments'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    post_id = Column(Integer, ForeignKey('user.id'))
+    message = Column(String(300))
+
 
     def to_dict(self):
         return {}
